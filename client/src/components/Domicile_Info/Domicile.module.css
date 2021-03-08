@@ -1,0 +1,22 @@
+.main_wrapper {
+    width: 95%;
+    margin:auto auto;
+    padding:4rem
+}
+
+.heading {
+    padding: 2rem 0 !important;
+}
+
+.photo_upload_section{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top:3rem
+}
+
+.btn_wrapper{
+    padding-top:2rem;
+    text-align: center;
+    margin: auto auto;
+}
