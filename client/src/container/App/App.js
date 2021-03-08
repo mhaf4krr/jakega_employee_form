@@ -11,9 +11,11 @@ import AddressInformation from "../../components/Address_Info/Address_info";
 
 import DomicileInformation from "../../components/Domicile_Info/DomicileInfo";
 
+import EducationInformation from "../../components/Educational_Info/EducationInfo";
+
 export default class App extends Component {
   state = {
-    currentStep: 4,
+    currentStep: 5,
     form: {
       general_information: {
         name: "",
@@ -70,6 +72,8 @@ export default class App extends Component {
         issuing_authority: "",
         photo: null,
       },
+
+      educational_information: [],
     },
   };
 
@@ -109,6 +113,15 @@ export default class App extends Component {
       form[section] = { ...section_data };
       this.setState({ form: form });
     }
+  };
+
+  handleArrayFill = (section, value) => {
+    let form = { ...this.state.form };
+
+    let section_data = [...value];
+    form[section] = [...section_data];
+
+    this.setState({ form: form });
   };
 
   incrementStep = () => {
@@ -158,6 +171,16 @@ export default class App extends Component {
           <DomicileInformation
             form={this.state.form.domicile_information}
             handleFormFill={this.handleFormFill}
+            incrementStep={this.incrementStep}
+            decrementStep={this.decrementStep}
+          />
+        );
+
+      case 5:
+        return (
+          <EducationInformation
+            form={this.state.form.educational_information}
+            handleArrayFill={this.handleArrayFill}
             incrementStep={this.incrementStep}
             decrementStep={this.decrementStep}
           />
