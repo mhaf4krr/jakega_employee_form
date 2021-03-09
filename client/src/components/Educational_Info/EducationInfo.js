@@ -22,6 +22,13 @@ export default class EducationInfo extends Component {
     },
   };
 
+  validatedMainSubmission = () => {
+    let educational_qualifications_data = this.state.educational_qualifications;
+    if (educational_qualifications_data.length > 0) {
+      return true;
+    } else return false;
+  };
+
   validated = () => {
     let validated = true;
 
@@ -215,6 +222,7 @@ export default class EducationInfo extends Component {
               size="medium"
               color="yellow"
               onClick={(e) => {
+                e.preventDefault();
                 decrementStep();
               }}
             >
@@ -224,14 +232,13 @@ export default class EducationInfo extends Component {
             <Button
               size="medium"
               positive
+              disabled={!this.validatedMainSubmission()}
               onClick={(e) => {
                 e.preventDefault();
 
-                //CHECK VALIDATION BEFORE SUBMIT
-
-                // if (validateInputs(form)) {
-                //   incrementStep();
-                // }
+                if (this.validatedMainSubmission()) {
+                  incrementStep();
+                } else return false;
               }}
             >
               (6). MOBILE DETAILS : NEXT
