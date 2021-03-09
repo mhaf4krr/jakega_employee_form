@@ -22,6 +22,20 @@ export default class EducationInfo extends Component {
     },
   };
 
+
+  componentDidMount(){
+    
+    let main_form_educational_data = [...this.props.form]
+     // If some previous information exists, just initialize state to that
+
+     if(main_form_educational_data.length > 0){
+       this.setState({educational_qualifications:[...main_form_educational_data]})
+     }
+
+     return
+     
+  }
+
   validatedMainSubmission = () => {
     let educational_qualifications_data = this.state.educational_qualifications;
     if (educational_qualifications_data.length > 0) {
@@ -237,6 +251,7 @@ export default class EducationInfo extends Component {
                 e.preventDefault();
 
                 if (this.validatedMainSubmission()) {
+                  handleArrayFill("educational_information",[...this.state.educational_qualifications])
                   incrementStep();
                 } else return false;
               }}
