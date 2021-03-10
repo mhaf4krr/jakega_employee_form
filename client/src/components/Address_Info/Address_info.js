@@ -1,5 +1,12 @@
 import React from "react";
-import { Header, Form, Button, Modal, Select } from "semantic-ui-react";
+import {
+  Header,
+  Form,
+  Button,
+  Modal,
+  Select,
+  Checkbox,
+} from "semantic-ui-react";
 import styles from "./Address.module.css";
 
 export default function General({
@@ -7,9 +14,12 @@ export default function General({
   form,
   incrementStep,
   decrementStep,
+  copyAddress,
 }) {
   const [open, setOpen] = React.useState(false);
   const [modalMessage, setModalMessgae] = React.useState("");
+
+  const [sameAddress, setSameAddress] = React.useState(false);
 
   let districtOptions = [
     { key: "kathua", text: "Kathua", value: "kathua" },
@@ -218,6 +228,23 @@ export default function General({
           </Form.Group>
 
           {/********** Permanent Address********/}
+
+          <div>
+            <Checkbox
+              label="Permanent Address is same as Present Address"
+              onChange={() => {
+                if (!sameAddress) {
+                  //Then make Addresses Same
+                  copyAddress();
+                  setSameAddress(true);
+                } else {
+                  //Clear the Address
+                  setSameAddress(false);
+                }
+              }}
+              checked={sameAddress}
+            />
+          </div>
 
           <div className={styles["sub_form"]}>
             <Header as="h4">(ii) Permanent Address</Header>

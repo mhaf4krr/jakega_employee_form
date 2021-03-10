@@ -1,29 +1,40 @@
 import React from "react";
-import { Header, Form, Image, Button, Modal } from "semantic-ui-react";
+import { Header, Form, Image, Button, Modal, Select } from "semantic-ui-react";
 import styles from "./General.module.css";
 
 import default_img from "../../assets/image.png";
 
-export default function General({ handleFormFill, form ,incrementStep}) {
+import { Departments as DepartmentList } from "../../utils/DepartmenListData";
+
+export default function General({ handleFormFill, form, incrementStep }) {
+  let departmentalOptions = DepartmentList.map((department) => {
+    return {
+      key: department,
+      text: department,
+      value: department,
+    };
+  });
+
   const [open, setOpen] = React.useState(false);
   const [modalMessage, setModalMessgae] = React.useState("");
 
   function validateInputs(form) {
     console.log(form);
 
-
     let validated = true;
     let errorMessgae = "";
-    let fields = ["name", "present_department",  "parent_department","designation", "employee_id"];
+    let fields = [
+      "name",
+      "present_department",
+      "parent_department",
+      "designation",
+      "employee_id",
+    ];
 
     fields.forEach((field) => {
-      if (
-        form[field] === "" ||
-        form[field] === undefined
-      ) {
+      if (form[field] === "" || form[field] === null) {
         validated = false;
         errorMessgae = `Invalid Input field: ${field}`;
-       
       }
     });
 
@@ -35,7 +46,7 @@ export default function General({ handleFormFill, form ,incrementStep}) {
     if (!validated) {
       setModalMessgae(errorMessgae);
       setOpen(true);
-      return false
+      return false;
     }
 
     return true;
@@ -73,35 +84,46 @@ export default function General({ handleFormFill, form ,incrementStep}) {
               value={form["name"]}
             />
             <Form.Field
-              control={Form.Input}
-              label="Present Department"
-              name="present_department"
-              required
-              onChange={(e) => {
+              selection
+              search
+              control={Select}
+              options={departmentalOptions}
+              selected={form["present_department"]}
+              label={{
+                children: "Present Department",
+                htmlFor: "form-select-control-present_department",
+              }}
+              placeholder={form["present_department"]}
+              onChange={(e, { value }) => {
                 handleFormFill(
                   "general_information",
                   "present_department",
-                  e.target.value
+                  value
                 );
               }}
-              value={form["present_department"]}
+              searchInput={{ id: "form-select-control-present_department" }}
             />
           </Form.Group>
           <Form.Group widths="equal">
-
-          <Form.Field
-              control={Form.Input}
-              label="Parent Department"
-              name="parent_department"
-              required
-              onChange={(e) => {
+            <Form.Field
+              selection
+              search
+              control={Select}
+              options={departmentalOptions}
+              selected={form["parent_department"]}
+              label={{
+                children: "Present Department",
+                htmlFor: "form-select-control-parent_department",
+              }}
+              placeholder={form["parent_department"]}
+              onChange={(e, { value }) => {
                 handleFormFill(
                   "general_information",
                   "parent_department",
-                  e.target.value
+                  value
                 );
               }}
-              value={form["parent_department"]}
+              searchInput={{ id: "form-select-control-parent_department" }}
             />
             <Form.Field
               control={Form.Input}
@@ -179,9 +201,9 @@ export default function General({ handleFormFill, form ,incrementStep}) {
               size="big"
               content="NEXT : Personal Details"
               onClick={(e) => {
-                e.preventDefault()
-                if(validateInputs(form)){
-                  incrementStep()
+                e.preventDefault();
+                if (validateInputs(form)) {
+                  incrementStep();
                 }
               }}
               color="green"

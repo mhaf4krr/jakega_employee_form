@@ -13,16 +13,16 @@ import DomicileInformation from "../../components/Domicile_Info/DomicileInfo";
 
 import EducationInformation from "../../components/Educational_Info/EducationInfo";
 
-import MobileNumbersInformation from "../../components/Mobile_Numbers/MobileNumbersInfo"
+import MobileNumbersInformation from "../../components/Mobile_Numbers/MobileNumbersInfo";
 
 export default class App extends Component {
   state = {
-    currentStep: 1,
+    currentStep: 3,
     form: {
       general_information: {
         name: "",
-        present_department: "",
-        parent_department: "",
+        present_department: null,
+        parent_department: null,
         designation: "",
         employee_id: "",
         photo: null,
@@ -77,7 +77,7 @@ export default class App extends Component {
 
       educational_information: [],
 
-      mobile_numbers:[]
+      mobile_numbers: [],
     },
   };
 
@@ -87,7 +87,7 @@ export default class App extends Component {
       //GET SUB_SECTION DATA
       let sub_section_data = { ...this.state.form[section][sub_section] };
 
-      if (value === undefined || value === undefined) {
+      if (value === undefined) {
         return;
       }
 
@@ -108,7 +108,7 @@ export default class App extends Component {
 
       let section_data = { ...this.state.form[section] };
 
-      if (value === undefined || value === "" || value === undefined) {
+      if (value === undefined || value === null) {
         return;
       }
 
@@ -117,6 +117,14 @@ export default class App extends Component {
       form[section] = { ...section_data };
       this.setState({ form: form });
     }
+  };
+
+  handleCopyAddress = () => {
+    let form = { ...this.state.form };
+    let present_address_info = form["address_information"]["present_address"];
+    let permanent_address_info = { ...present_address_info };
+    form["address_information"]["permanent_address"] = permanent_address_info;
+    this.setState({ form: { ...form } });
   };
 
   handleArrayFill = (section, value) => {
@@ -167,6 +175,7 @@ export default class App extends Component {
             handleFormFill={this.handleFormFill}
             incrementStep={this.incrementStep}
             decrementStep={this.decrementStep}
+            copyAddress={this.handleCopyAddress}
           />
         );
 
@@ -190,15 +199,15 @@ export default class App extends Component {
           />
         );
 
-        case 6:
-          return (
-            <MobileNumbersInformation
-              form={this.state.form.mobile_numbers}
-              handleArrayFill={this.handleArrayFill}
-              incrementStep={this.incrementStep}
-              decrementStep={this.decrementStep}
-            />
-          );
+      case 6:
+        return (
+          <MobileNumbersInformation
+            form={this.state.form.mobile_numbers}
+            handleArrayFill={this.handleArrayFill}
+            incrementStep={this.incrementStep}
+            decrementStep={this.decrementStep}
+          />
+        );
 
       default:
         return <div>Lost</div>;
