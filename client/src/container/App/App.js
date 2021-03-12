@@ -15,9 +15,13 @@ import EducationInformation from "../../components/Educational_Info/EducationInf
 
 import MobileNumbersInformation from "../../components/Mobile_Numbers/MobileNumbersInfo";
 
+import SocialInformation from "../../components/Social_Info/Social";
+
+import VehiclesInformation from "../../components/Vehicles_Info/Vehicles_Info";
+
 export default class App extends Component {
   state = {
-    currentStep: 3,
+    currentStep: 8,
     form: {
       general_information: {
         name: "",
@@ -78,6 +82,15 @@ export default class App extends Component {
       educational_information: [],
 
       mobile_numbers: [],
+
+      social_information: {
+        email: "",
+        fb: "",
+        twitter: "",
+        whatsapp: "",
+      },
+
+      vehicles: [],
     },
   };
 
@@ -204,6 +217,26 @@ export default class App extends Component {
           <MobileNumbersInformation
             form={this.state.form.mobile_numbers}
             handleArrayFill={this.handleArrayFill}
+            incrementStep={this.incrementStep}
+            decrementStep={this.decrementStep}
+          />
+        );
+
+      case 7:
+        return (
+          <SocialInformation
+            form={this.state.form.social_information}
+            handleFormFill={this.handleFormFill}
+            incrementStep={this.incrementStep}
+            decrementStep={this.decrementStep}
+          />
+        );
+
+      case 8:
+        return (
+          <VehiclesInformation
+            form={this.state.form.social_information}
+            handleFormFill={this.handleFormFill}
             incrementStep={this.incrementStep}
             decrementStep={this.decrementStep}
           />
