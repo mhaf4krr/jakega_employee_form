@@ -1,5 +1,5 @@
 import React from "react";
-import { Header, Form, Image, Button, Modal, Select } from "semantic-ui-react";
+import { Header, Form, Button, Modal,} from "semantic-ui-react";
 import styles from "./Social.module.css";
 
 export default function General({

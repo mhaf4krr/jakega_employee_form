@@ -17,11 +17,17 @@ import MobileNumbersInformation from "../../components/Mobile_Numbers/MobileNumb
 
 import SocialInformation from "../../components/Social_Info/Social";
 
-import VehiclesInformation from "../../components/Vehicles_Info/Vehicles_Info";
+import VehiclesInformation from "../../components/Vehicles_Info/VehiclesInfo";
+
+import LegalInformation from "../../components/Legal_Info/LegalInfo"
+
+import AccountInformation from "../../components/Account_Numbers_information/AccountNumbers"
+
+import PostingInformation from "../../components/ServiceInformation/PostingsInfo/PostingsInformation"
 
 export default class App extends Component {
   state = {
-    currentStep: 8,
+    currentStep: 11,
     form: {
       general_information: {
         name: "",
@@ -91,7 +97,27 @@ export default class App extends Component {
       },
 
       vehicles: [],
+      legal_info :{
+        pan_number:"",
+        aadhaar_number:"",
+        passport_number:"",
+        date_of_birth:null,
+        place_of_birth:"",
+        nationality:null,
+        religion:null
+      },
+
+      accounts:[],
+
+
+      service_details:{
+        positings:[],
+        promotions:[],
+        joining:[]
+      }
     },
+
+    
   };
 
   handleFormFill = (section, id, value, sub_section = undefined) => {
@@ -140,8 +166,20 @@ export default class App extends Component {
     this.setState({ form: { ...form } });
   };
 
-  handleArrayFill = (section, value) => {
-    let form = { ...this.state.form };
+  handleArrayFill = (section, value,sub_section=undefined) => {
+    
+    let form = {...this.state.form}
+
+    if(sub_section){
+      let form_data = { ...this.state.form };
+      let sub_section_data = [...value]
+      form_data[section][sub_section] = [...sub_section_data]      
+      this.setState({form:{...form_data}})
+
+    }
+
+    console.log(value)
+   
 
     let section_data = [...value];
     form[section] = [...section_data];
@@ -235,8 +273,40 @@ export default class App extends Component {
       case 8:
         return (
           <VehiclesInformation
-            form={this.state.form.social_information}
+            form={this.state.form.vehicles}
+            handleArrayFill={this.handleArrayFill}
+            incrementStep={this.incrementStep}
+            decrementStep={this.decrementStep}
+          />
+        );
+
+        case 9:
+        return (
+          <LegalInformation
+            form={this.state.form.legal_info}
             handleFormFill={this.handleFormFill}
+            incrementStep={this.incrementStep}
+            decrementStep={this.decrementStep}
+          />
+        );
+
+      
+
+        case 10:
+        return (
+          <AccountInformation
+            form={this.state.form.accounts}
+              handleArrayFill={this.handleArrayFill}
+            incrementStep={this.incrementStep}
+            decrementStep={this.decrementStep}
+          />
+        );
+
+        case 11:
+        return (
+          <PostingInformation
+            form={this.state.form.service_details.positings}
+              handleArrayFill={this.handleArrayFill}
             incrementStep={this.incrementStep}
             decrementStep={this.decrementStep}
           />

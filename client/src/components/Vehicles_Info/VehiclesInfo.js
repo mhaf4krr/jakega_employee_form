@@ -6,40 +6,40 @@ import Modal from "../../utils/Modal/Modal";
 
 import { Header, Form, Button } from "semantic-ui-react";
 
-import Table from "./MobileTable/Table";
+import Table from "./VehicleTable/Table";
 
-export default class VehiclesInfo extends Component {
+export default class vehicleNumbersInfo extends Component {
   state = {
     modalOpen: false,
     counter: 0,
-    mobile_numbers: [],
-    current_mobile_number: "",
+    vehicle_numbers: [],
+    current_vehicle_number: "",
   };
 
   componentDidMount() {
-    let mobile_numbers_data = this.props.form;
+    let vehicle_numbers_data = this.props.form;
 
-    console.log(mobile_numbers_data);
+    console.log(vehicle_numbers_data);
     // If some previous information exists, just initialize state to that
 
-    if (mobile_numbers_data.length > 0) {
-      this.setState({ mobile_numbers: [...mobile_numbers_data] });
+    if (vehicle_numbers_data.length > 0) {
+      this.setState({ vehicle_numbers: [...vehicle_numbers_data] });
     }
 
     return;
   }
 
   validatedMainSubmission = () => {
-    let mobile_numbers = this.state.mobile_numbers;
-    if (mobile_numbers.length > 0) {
+    let vehicle_numbers = this.state.vehicle_numbers;
+    if (vehicle_numbers.length > 0) {
       return true;
     } else return false;
   };
 
   validated = () => {
     if (
-      this.state.current_mobile_number === "" ||
-      this.state.current_mobile_number.length < 10
+      this.state.current_vehicle_number === "" ||
+      this.state.current_vehicle_number.length < 4
     ) {
       return false;
     } else return true;
@@ -47,42 +47,42 @@ export default class VehiclesInfo extends Component {
 
   clearExistingForm = () => {
     this.setState({
-      current_mobile_number: "",
+      current_vehicle_number: "",
     });
   };
 
   storeCurrentInArray = () => {
-    let mobile_numbers_data = [
-      ...this.state.mobile_numbers,
-      this.state.current_mobile_number,
+    let vehicle_numbers_data = [
+      ...this.state.vehicle_numbers,
+      this.state.current_vehicle_number,
     ];
     this.setState({
-      mobile_numbers: mobile_numbers_data,
+      vehicle_numbers: vehicle_numbers_data,
     });
   };
 
   removeItemFormTable = (value) => {
-    let mobile_numbers_data = [...this.state.mobile_numbers];
+    let vehicle_numbers_data = [...this.state.vehicle_numbers];
 
     console.log(value);
 
-    let new_mobile_numbers_data = mobile_numbers_data.filter((item) => {
+    let new_vehicle_numbers_data = vehicle_numbers_data.filter((item) => {
       return item !== value;
     });
 
     this.setState({
-      mobile_numbers: new_mobile_numbers_data,
+      vehicle_numbers: new_vehicle_numbers_data,
     });
   };
 
-  handleLocalMobileFill = (value) => {
-    this.setState({ current_mobile_number: value });
+  handleLocalvehicleFill = (value) => {
+    this.setState({ current_vehicle_number: value });
   };
 
-  handleAddMobile = (mobile_number) => {
-    let local_mobile_numbers = [...this.state.mobile_numbers, mobile_number];
+  handleAddvehicle = (vehicle_number) => {
+    let local_vehicle_numbers = [...this.state.vehicle_numbers, vehicle_number];
 
-    this.setState({ mobile_numbers: [...local_mobile_numbers] });
+    this.setState({ vehicle_numbers: [...local_vehicle_numbers] });
   };
   changeModal = (state) => {
     let modal = state === "open" ? true : false;
@@ -98,20 +98,20 @@ export default class VehiclesInfo extends Component {
         <div className={styles["main_wrapper"]}>
           <Modal
             modalState={this.state.modalOpen}
-            modalMessage="Add new Mobile Number"
+            modalMessage="Add new vehicle Number"
             closeModal={() => this.changeModal("close")}
           >
             <Form>
               <Form.Group widths="equal">
                 <Form.Field
                   control={Form.Input}
-                  label="Mobile Number"
-                  name="mobile_number_local"
+                  label="vehicle Number"
+                  name="vehicle_number_local"
                   required
                   onChange={(e) => {
-                    this.handleLocalMobileFill(e.target.value);
+                    this.handleLocalvehicleFill(e.target.value);
                   }}
-                  value={this.state["current_mobile_number"]}
+                  value={this.state["current_vehicle_number"]}
                 />
               </Form.Group>
 
@@ -133,10 +133,9 @@ export default class VehiclesInfo extends Component {
             </Form>
           </Modal>
 
-          <Header as="h2">6. Mobile Numbers</Header>
+          <Header as="h2">8. Vehicle Registration Information</Header>
           <p>
-            Please fill up the details of Mobile Numbers used during last 5
-            years.
+            Please fill up the registration number of vehicles you have used/owned and using/owning.
           </p>
 
           <Button
@@ -147,12 +146,12 @@ export default class VehiclesInfo extends Component {
               });
             }}
           >
-            Add Mobile Number
+            Add Vehicle Registration
           </Button>
         </div>
         <Table
           removeItemFormTable={this.removeItemFormTable}
-          data={this.state.mobile_numbers}
+          data={this.state.vehicle_numbers}
         />
 
         <div className={styles["btn_wrapper"]}>
@@ -165,7 +164,7 @@ export default class VehiclesInfo extends Component {
                 decrementStep();
               }}
             >
-              BACK: (5). EDUCATIONAL INFO
+              BACK: (7). SOCIAL MEDIA INFO
             </Button>
             <Button.Or />
             <Button
@@ -176,13 +175,15 @@ export default class VehiclesInfo extends Component {
                 e.preventDefault();
 
                 if (this.validatedMainSubmission()) {
-                  handleArrayFill("mobile_numbers", [
-                    ...this.state.mobile_numbers,
+                  handleArrayFill("vehicles", [
+                    ...this.state.vehicle_numbers,
                   ]);
+
+                  incrementStep()
                 } else return false;
               }}
             >
-              (6). e-COMMUNICATION: NEXT
+              (9). LEGAL INFO: NEXT
             </Button>
           </Button.Group>
         </div>
