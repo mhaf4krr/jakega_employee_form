@@ -19,15 +19,25 @@ import SocialInformation from "../../components/Social_Info/Social";
 
 import VehiclesInformation from "../../components/Vehicles_Info/VehiclesInfo";
 
-import LegalInformation from "../../components/Legal_Info/LegalInfo"
+import LegalInformation from "../../components/Legal_Info/LegalInfo";
 
-import AccountInformation from "../../components/Account_Numbers_information/AccountNumbers"
+import AccountInformation from "../../components/Account_Numbers_information/AccountNumbers";
 
-import PostingInformation from "../../components/ServiceInformation/PostingsInfo/PostingsInformation"
+import PostingInformation from "../../components/ServiceInformation/PostingsInfo/PostingsInformation";
+
+import PromotionInformation from "../../components/ServiceInformation/PromotionsInfo/PromotionsInformation";
+
+import JoiningInformation from "../../components/ServiceInformation/Joining_Details/JoiningInformation";
+
+import EmployeeDetails from "../../components/Employee_Office_Details/EmployeeDetails";
+
+import FamilyMembers from "../../components/Particulars/Family_Members/FamilyMembers";
+
+import InLawMembers from "../../components/Particulars/InLaws/InLaws";
 
 export default class App extends Component {
   state = {
-    currentStep: 11,
+    currentStep: 16,
     form: {
       general_information: {
         name: "",
@@ -97,27 +107,51 @@ export default class App extends Component {
       },
 
       vehicles: [],
-      legal_info :{
-        pan_number:"",
-        aadhaar_number:"",
-        passport_number:"",
-        date_of_birth:null,
-        place_of_birth:"",
-        nationality:null,
-        religion:null
+      legal_info: {
+        pan_number: "",
+        aadhaar_number: "",
+        passport_number: "",
+        date_of_birth: null,
+        place_of_birth: "",
+        nationality: null,
+        religion: null,
       },
 
-      accounts:[],
+      accounts: [],
 
+      service_details: {
+        positings: [],
+        promotions: [],
+        joining: {
+          recruiting_agency: null,
+          date_of_appointment: null,
+          order_number: "",
+          initial_joining_department: null,
+          initial_joining_office: "",
+          date_of_joining: null,
+          designation: "",
+          employee_initial_cadre: null,
+          employee_type: null,
+          employee_category: null,
+        },
+      },
 
-      service_details:{
-        positings:[],
-        promotions:[],
-        joining:[]
-      }
+      employee_office_details: {
+        current_designation: "",
+        current_post: "",
+        current_cadre: null,
+        current_office: "",
+        govt_accomodation_alloted: null,
+        accomodation_details: "",
+      },
+
+      particulars_information: {
+        family_members: [],
+        in_laws: [],
+        close_relatives: [],
+        friends: [],
+      },
     },
-
-    
   };
 
   handleFormFill = (section, id, value, sub_section = undefined) => {
@@ -166,25 +200,22 @@ export default class App extends Component {
     this.setState({ form: { ...form } });
   };
 
-  handleArrayFill = (section, value,sub_section=undefined) => {
-    
-    let form = {...this.state.form}
+  handleArrayFill = (section, value, sub_section = undefined) => {
+    let form = { ...this.state.form };
 
-    if(sub_section){
+    if (sub_section) {
       let form_data = { ...this.state.form };
-      let sub_section_data = [...value]
-      form_data[section][sub_section] = [...sub_section_data]      
-      this.setState({form:{...form_data}})
+      let sub_section_data = [...value];
+      form_data[section][sub_section] = [...sub_section_data];
+      this.setState({ form: { ...form_data } });
+    } else {
+      console.log(value);
 
+      let section_data = [...value];
+      form[section] = [...section_data];
+
+      this.setState({ form: form });
     }
-
-    console.log(value)
-   
-
-    let section_data = [...value];
-    form[section] = [...section_data];
-
-    this.setState({ form: form });
   };
 
   incrementStep = () => {
@@ -280,7 +311,7 @@ export default class App extends Component {
           />
         );
 
-        case 9:
+      case 9:
         return (
           <LegalInformation
             form={this.state.form.legal_info}
@@ -290,28 +321,75 @@ export default class App extends Component {
           />
         );
 
-      
-
-        case 10:
+      case 10:
         return (
           <AccountInformation
             form={this.state.form.accounts}
-              handleArrayFill={this.handleArrayFill}
+            handleArrayFill={this.handleArrayFill}
             incrementStep={this.incrementStep}
             decrementStep={this.decrementStep}
           />
         );
 
-        case 11:
+      case 11:
         return (
           <PostingInformation
             form={this.state.form.service_details.positings}
-              handleArrayFill={this.handleArrayFill}
+            handleArrayFill={this.handleArrayFill}
             incrementStep={this.incrementStep}
             decrementStep={this.decrementStep}
           />
         );
 
+      case 12:
+        return (
+          <PromotionInformation
+            form={this.state.form.service_details.promotions}
+            handleArrayFill={this.handleArrayFill}
+            incrementStep={this.incrementStep}
+            decrementStep={this.decrementStep}
+          />
+        );
+
+      case 13:
+        return (
+          <JoiningInformation
+            form={this.state.form.service_details.joining}
+            handleFormFill={this.handleFormFill}
+            incrementStep={this.incrementStep}
+            decrementStep={this.decrementStep}
+          />
+        );
+
+      case 14:
+        return (
+          <EmployeeDetails
+            form={this.state.form.employee_office_details}
+            handleFormFill={this.handleFormFill}
+            incrementStep={this.incrementStep}
+            decrementStep={this.decrementStep}
+          />
+        );
+
+      case 15:
+        return (
+          <FamilyMembers
+            form={this.state.form.particulars_information.family_members}
+            handleArrayFill={this.handleArrayFill}
+            incrementStep={this.incrementStep}
+            decrementStep={this.decrementStep}
+          />
+        );
+
+      case 16:
+        return (
+          <InLawMembers
+            form={this.state.form.particulars_information.in_laws}
+            handleArrayFill={this.handleArrayFill}
+            incrementStep={this.incrementStep}
+            decrementStep={this.decrementStep}
+          />
+        );
       default:
         return <div>Lost</div>;
     }

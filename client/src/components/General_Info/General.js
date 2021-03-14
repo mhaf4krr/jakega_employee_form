@@ -84,6 +84,7 @@ export default function General({ handleFormFill, form, incrementStep }) {
               value={form["name"]}
             />
             <Form.Field
+              required
               selection
               search
               control={Select}
@@ -106,13 +107,14 @@ export default function General({ handleFormFill, form, incrementStep }) {
           </Form.Group>
           <Form.Group widths="equal">
             <Form.Field
+              required
               selection
               search
               control={Select}
               options={departmentalOptions}
               selected={form["parent_department"]}
               label={{
-                children: "Present Department",
+                children: "Parent Department",
                 htmlFor: "form-select-control-parent_department",
               }}
               placeholder={form["parent_department"]}
