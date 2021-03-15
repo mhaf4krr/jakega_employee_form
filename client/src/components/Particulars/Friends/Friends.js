@@ -8,15 +8,15 @@ import { Header, Form, Button, TextArea, Select } from "semantic-ui-react";
 
 import {data as NationalityData} from "../../../utils/NationalityData"
 
-import Table from "./CloseRelativesTable/Table";
+import Table from "./FriendsTable/Table";
 
-export default class CloseRelatives extends Component {
+export default class Friends extends Component {
   state = {
     modalOpen: false,
     counter: 0,
-    close_relatives: [],
-    current_close_relative: {
-      relation: "",
+    friends: [],
+    current_friend: {
+    
       name: "",
       nationality:null,
       occupation: "",
@@ -27,49 +27,49 @@ export default class CloseRelatives extends Component {
   };
 
   componentDidMount() {
-    let close_relatives_data = this.props.form;
+    let friends_data = this.props.form;
 
     // If some previous information exists, just initialize state to that
 
-    if (close_relatives_data.length > 0) {
-      this.setState({ close_relatives: [...close_relatives_data] });
+    if (friends_data.length > 0) {
+      this.setState({ friends: [...friends_data] });
     }
 
     return;
   }
 
   handleLocalFormFill = (key, value) => {
-    let form = { ...this.state.current_close_relative };
+    let form = { ...this.state.current_friend };
 
     if (value === null) {
       return;
     }
 
     form[key] = value;
-    this.setState({ current_close_relative: { ...form } });
+    this.setState({ current_friend: { ...form } });
   };
 
   validatedMainSubmission = () => {
-    let close_relatives = this.state.close_relatives;
-    if (close_relatives.length > 0) {
+    let friends = this.state.friends;
+    if (friends.length > 0) {
       return true;
     } else return false;
   };
 
   removeItemFormTable = (counter) => {
-    let close_relatives_data = [...this.state.close_relatives];
+    let friends_data = [...this.state.friends];
 
-    close_relatives_data = close_relatives_data.filter((member) => {
+    friends_data = friends_data.filter((member) => {
       return member.counter !== counter;
     });
 
-    this.setState({ close_relatives: [...close_relatives_data] });
+    this.setState({ friends: [...friends_data] });
   };
 
   validated = () => {
-    let form = this.state.current_close_relative;
+    let form = this.state.current_friend;
     let validated = true;
-    let fields = ["occupation", "name", "place_of_birth", "relation","nationality","current_address"];
+    let fields = ["occupation", "name", "place_of_birth","nationality","current_address"];
 
     for (let i = 0; i < fields.length; i++) {
       if (form[fields[i]] === "" || form[fields[i]] === null) {
@@ -84,26 +84,25 @@ export default class CloseRelatives extends Component {
   storeCurrentIntoArray = () => {
     let temp = this.state.counter + 1;
     let current = {
-      ...this.state.current_close_relative,
+      ...this.state.current_friend,
       counter: this.state.counter,
     };
     this.setState({
-      close_relatives: [...this.state.close_relatives, current],
+      friends: [...this.state.friends, current],
       counter: temp,
     });
   };
 
   clearExistingForm = () => {
-    let current_data = this.state.current_close_relative;
+    let current_data = this.state.current_friend;
     let fields = Object.keys(current_data);
 
     for (let i = 0; i < fields.length; i++) {
       current_data[fields[i]] = "";
     }
 
-    current_data["relation"] = null;
-
-    this.setState({ current_close_relative: { ...current_data } });
+  
+    this.setState({ current_friend: { ...current_data } });
   };
 
   changeModal = (state) => {
@@ -115,28 +114,19 @@ export default class CloseRelatives extends Component {
       ...this.props,
     };
 
-    let form = this.state.current_close_relative;
+    let form = this.state.current_friend;
 
     return (
       <div className="container">
         <div className={styles["main_wrapper"]}>
           <Modal
             modalState={this.state.modalOpen}
-            modalMessage="Add a Close Relative"
+            modalMessage="Add Friend Information"
             closeModal={() => this.changeModal("close")}
           >
             <Form>
               <Form.Group widths="equal">
-              <Form.Field
-                  control={Form.Input}
-                  label="Relation"
-                  name="relation"
-                  required
-                  onChange={(e) => {
-                    this.handleLocalFormFill("relation", e.target.value);
-                  }}
-                  value={form["relation"]}
-                />
+            
                 <Form.Field
                   control={Form.Input}
                   label="Name"
@@ -226,14 +216,14 @@ export default class CloseRelatives extends Component {
                     }
                   }}
                 >
-                  Add Family Member
+                  Add Friend to List
                 </Button>
               </Form.Group>
             </Form>
           </Modal>
 
-          <Header as="h2">17. Particulars of Close Relatives</Header>
-          <p>Please furnish information voluntarily of such relatives who you think, the employer should be kept posted for reasons of preempting adverse reporting in enquiry</p>
+          <Header as="h2">18. Particulars of Friends and Acquaintances during past years at place of posting</Header>
+          <p>Please furnish information voluntarily of such friends and acquaintances who you think, the employer should be kept posted for reasons of preempting adverse reporting in enquiry</p>
 
           <Button
             positive
@@ -243,12 +233,12 @@ export default class CloseRelatives extends Component {
               });
             }}
           >
-            Add Close Relative
+            Add Friend/Acquaintance
           </Button>
         </div>
         <Table
           removeItemFormTable={this.removeItemFormTable}
-          data={this.state.close_relatives}
+          data={this.state.friends}
         />
 
         <div className={styles["btn_wrapper"]}>
@@ -273,11 +263,11 @@ export default class CloseRelatives extends Component {
 
                 if (this.validatedMainSubmission()) {
                   handleArrayFill("particulars_information", [
-                    ...this.state.close_relatives,
+                    ...this.state.friends],
 
-                    "close_relatives",
-                  ]);
-                  incrementStep()
+                    "friends",
+                  );
+                  // incrementStep()
                 } else return false;
               }}
             >

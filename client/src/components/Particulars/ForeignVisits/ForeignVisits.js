@@ -6,70 +6,70 @@ import Modal from "../../../utils/Modal/Modal";
 
 import { Header, Form, Button, TextArea, Select } from "semantic-ui-react";
 
-import {data as NationalityData} from "../../../utils/NationalityData"
+import Table from "./ForeignVisitsTable/Table";
 
-import Table from "./CloseRelativesTable/Table";
+import  {countries} from "../../../utils/NationalityData"
 
-export default class CloseRelatives extends Component {
+
+
+export default class ForeignVisits extends Component {
   state = {
     modalOpen: false,
     counter: 0,
-    close_relatives: [],
-    current_close_relative: {
-      relation: "",
-      name: "",
-      nationality:null,
-      occupation: "",
-      place_of_birth: "",
-      current_address:"",
-      additional_info:""
+    visits: [],
+    current_visit: {
+      from:null,
+      to:null,
+      country_visited:null,
+      purpose_of_visit:"",
+      details_of_host:""
     },
   };
 
   componentDidMount() {
-    let close_relatives_data = this.props.form;
+    let visits_data = this.props.form;
 
     // If some previous information exists, just initialize state to that
 
-    if (close_relatives_data.length > 0) {
-      this.setState({ close_relatives: [...close_relatives_data] });
+    if (visits_data.length > 0) {
+      this.setState({ visits: [...visits_data] });
     }
 
     return;
   }
 
   handleLocalFormFill = (key, value) => {
-    let form = { ...this.state.current_close_relative };
+    let form = { ...this.state.current_visit };
 
     if (value === null) {
       return;
     }
 
     form[key] = value;
-    this.setState({ current_close_relative: { ...form } });
+    this.setState({ current_visit: { ...form } });
   };
 
   validatedMainSubmission = () => {
-    let close_relatives = this.state.close_relatives;
-    if (close_relatives.length > 0) {
+    let visits = this.state.visits;
+    if (visits.length > 0) {
       return true;
     } else return false;
   };
 
   removeItemFormTable = (counter) => {
-    let close_relatives_data = [...this.state.close_relatives];
+    let visits_data = [...this.state.visits];
 
-    close_relatives_data = close_relatives_data.filter((member) => {
+    visits_data = visits_data.filter((member) => {
       return member.counter !== counter;
     });
 
-    this.setState({ close_relatives: [...close_relatives_data] });
+    this.setState({ visits: [...visits_data] });
   };
 
   validated = () => {
-    let form = this.state.current_close_relative;
+    let form = this.state.current_visit;
     let validated = true;
-    let fields = ["occupation", "name", "place_of_birth", "relation","nationality","current_address"];
+    let fields = ["from","to","country_visited","purpose_of_visit","details_of_host"];
 
     for (let i = 0; i < fields.length; i++) {
       if (form[fields[i]] === "" || form[fields[i]] === null) {
@@ -84,26 +84,26 @@ export default class CloseRelatives extends Component {
   storeCurrentIntoArray = () => {
     let temp = this.state.counter + 1;
     let current = {
-      ...this.state.current_close_relative,
+      ...this.state.current_visit,
       counter: this.state.counter,
     };
     this.setState({
-      close_relatives: [...this.state.close_relatives, current],
+      visits: [...this.state.visits, current],
       counter: temp,
     });
   };
 
   clearExistingForm = () => {
-    let current_data = this.state.current_close_relative;
+    let current_data = this.state.current_visit;
     let fields = Object.keys(current_data);
 
     for (let i = 0; i < fields.length; i++) {
       current_data[fields[i]] = "";
     }
 
-    current_data["relation"] = null;
+   
 
-    this.setState({ current_close_relative: { ...current_data } });
+    this.setState({ current_visit: { ...current_data } });
   };
 
   changeModal = (state) => {
@@ -115,103 +115,103 @@ export default class CloseRelatives extends Component {
       ...this.props,
     };
 
-    let form = this.state.current_close_relative;
+    let form = this.state.current_visit;
 
     return (
       <div className="container">
         <div className={styles["main_wrapper"]}>
           <Modal
             modalState={this.state.modalOpen}
-            modalMessage="Add a Close Relative"
+            modalMessage="Add a Foreign Visit"
             closeModal={() => this.changeModal("close")}
           >
             <Form>
               <Form.Group widths="equal">
-              <Form.Field
-                  control={Form.Input}
-                  label="Relation"
-                  name="relation"
-                  required
-                  onChange={(e) => {
-                    this.handleLocalFormFill("relation", e.target.value);
-                  }}
-                  value={form["relation"]}
-                />
                 <Form.Field
-                  control={Form.Input}
-                  label="Name"
-                  name="name"
                   required
-                  onChange={(e) => {
-                    this.handleLocalFormFill("name", e.target.value);
+                  control={Select}
+                  options={countries.map((country) => {
+                    return { key: country.name, text: country.name, value: country.name };
+                  })}
+                  label={{
+                    children: "Visit From",
+                    htmlFor: "form-select-control-from",
                   }}
-                  value={form["name"]}
-                />
-
-                <Form.Field
-                  control={Form.Input}
-                  label="Occupation"
-                  name="occupation"
-                  required
-                  onChange={(e) => {
-                    this.handleLocalFormFill("occupation", e.target.value);
+                  placeholder={form["from"] || "Visit From"}
+                  search
+                  onChange={(e, { value }) => {
+                    console.log(value);
+                    this.handleLocalFormFill("from", value);
                   }}
-                  value={form["occupation"]}
+                  searchInput={{ id: "form-select-control-from" }}
                 />
 
 <Form.Field
                   required
                   control={Select}
-                  options={NationalityData.map((relation) => {
-                    return { key: relation, text: relation, value: relation };
+                  options={countries.map((country) => {
+                    return { key: country.name, text: country.name, value: country.name };
                   })}
                   label={{
-                    children: "Nationality",
-                    htmlFor: "form-select-control-nationality",
+                    children: "Visit To",
+                    htmlFor: "form-select-control-to",
                   }}
-                  placeholder={form["nationality"] || "Nationality"}
+                  placeholder={form["from"] || "Visit To"}
                   search
                   onChange={(e, { value }) => {
                     console.log(value);
-                    this.handleLocalFormFill("nationality", value);
+                    this.handleLocalFormFill("to", value);
                   }}
-                  searchInput={{ id: "form-select-control-nationality" }}
+                  searchInput={{ id: "form-select-control-to" }}
                 />
 
+
+<Form.Field
+                  required
+                  control={Select}
+                  options={countries.map((country) => {
+                    return { key: country.name, text: country.name, value: country.name };
+                  })}
+                  label={{
+                    children: "Country Visited",
+                    htmlFor: "form-select-control-country_visited",
+                  }}
+                  placeholder={form["country_visited"] || "Country Visited"}
+                  search
+                  onChange={(e, { value }) => {
+                    console.log(value);
+                    this.handleLocalFormFill("country_visited", value);
+                  }}
+                  searchInput={{ id: "form-select-control-country_visited" }}
+                />
+
+
+                
               </Form.Group>
 
-              <Form.Field label="Place of Birth" />
+              <Form.Field label="Purpose of Visit" />
               <Form.Group>
                 <TextArea
                   required
                   placeholer="Address"
                   onChange={(e) => {
-                    this.handleLocalFormFill("place_of_birth", e.target.value);
+                    this.handleLocalFormFill("purpose_of_visit", e.target.value);
                   }}
                 />
               </Form.Group>
 
-              <Form.Field label="Current Address" />
+              <Form.Field label="Details of Host(with whom stayed)" />
               <Form.Group>
                 <TextArea
                   required
-                  placeholer="Current Address"
+                  placeholer="Address"
                   onChange={(e) => {
-                    this.handleLocalFormFill("current_address", e.target.value);
+                    this.handleLocalFormFill("details_of_host", e.target.value);
                   }}
                 />
               </Form.Group>
 
-              <Form.Field label="Additional Information" />
-              <Form.Group>
-                <TextArea
-                  required
-                  placeholer="Additional Information"
-                  onChange={(e) => {
-                    this.handleLocalFormFill("additional_info", e.target.value);
-                  }}
-                />
-              </Form.Group>
+              
 
               <Form.Group>
                 <Button
@@ -226,14 +226,14 @@ export default class CloseRelatives extends Component {
                     }
                   }}
                 >
-                  Add Family Member
+                  Add Foreign Visit
                 </Button>
               </Form.Group>
             </Form>
           </Modal>
 
-          <Header as="h2">17. Particulars of Close Relatives</Header>
-          <p>Please furnish information voluntarily of such relatives who you think, the employer should be kept posted for reasons of preempting adverse reporting in enquiry</p>
+          <Header as="h2">20. Particulars of Foreign Visits</Header>
+          <p>Please enter the details of your foreign visits</p>
 
           <Button
             positive
@@ -243,12 +243,12 @@ export default class CloseRelatives extends Component {
               });
             }}
           >
-            Add Close Relative
+            Add Foreign Visit
           </Button>
         </div>
         <Table
           removeItemFormTable={this.removeItemFormTable}
-          data={this.state.close_relatives}
+          data={this.state.visits}
         />
 
         <div className={styles["btn_wrapper"]}>
@@ -261,7 +261,7 @@ export default class CloseRelatives extends Component {
                 decrementStep();
               }}
             >
-              BACK: (16). IN-LAWS INFO
+              BACK: (19). PLACES
             </Button>
             <Button.Or />
             <Button
@@ -272,16 +272,16 @@ export default class CloseRelatives extends Component {
                 e.preventDefault();
 
                 if (this.validatedMainSubmission()) {
-                  handleArrayFill("particulars_information", [
-                    ...this.state.close_relatives,
-
-                    "close_relatives",
-                  ]);
-                  incrementStep()
+                  handleArrayFill(
+                    "particulars_information",
+                    [...this.state.visits],
+                    "visits"
+                  );
+                  incrementStep();
                 } else return false;
               }}
             >
-              18. FRIENDS INFO: NEXT
+              21 FOREIGN OFFICIALS: NEXT
             </Button>
           </Button.Group>
         </div>

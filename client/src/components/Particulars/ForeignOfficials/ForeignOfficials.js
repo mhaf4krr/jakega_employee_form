@@ -6,70 +6,65 @@ import Modal from "../../../utils/Modal/Modal";
 
 import { Header, Form, Button, TextArea, Select } from "semantic-ui-react";
 
-import {data as NationalityData} from "../../../utils/NationalityData"
+import Table from "./ForeignOfficialsTable/Table";
 
-import Table from "./CloseRelativesTable/Table";
-
-export default class CloseRelatives extends Component {
+export default class FamilyMembers extends Component {
   state = {
     modalOpen: false,
     counter: 0,
-    close_relatives: [],
-    current_close_relative: {
-      relation: "",
+    family_members: [],
+    current_family_member: {
+      relation: null,
       name: "",
-      nationality:null,
       occupation: "",
-      place_of_birth: "",
-      current_address:"",
-      additional_info:""
+      present_address: "",
     },
   };
 
   componentDidMount() {
-    let close_relatives_data = this.props.form;
+    let family_members_data = this.props.form;
 
     // If some previous information exists, just initialize state to that
 
-    if (close_relatives_data.length > 0) {
-      this.setState({ close_relatives: [...close_relatives_data] });
+    if (family_members_data.length > 0) {
+      this.setState({ family_members: [...family_members_data] });
     }
 
     return;
   }
 
   handleLocalFormFill = (key, value) => {
-    let form = { ...this.state.current_close_relative };
+    let form = { ...this.state.current_family_member };
 
     if (value === null) {
       return;
     }
 
     form[key] = value;
-    this.setState({ current_close_relative: { ...form } });
+    this.setState({ current_family_member: { ...form } });
   };
 
   validatedMainSubmission = () => {
-    let close_relatives = this.state.close_relatives;
-    if (close_relatives.length > 0) {
+    let family_members = this.state.family_members;
+    if (family_members.length > 0) {
       return true;
     } else return false;
   };
 
   removeItemFormTable = (counter) => {
-    let close_relatives_data = [...this.state.close_relatives];
+    let family_members_data = [...this.state.family_members];
 
-    close_relatives_data = close_relatives_data.filter((member) => {
+    family_members_data = family_members_data.filter((member) => {
       return member.counter !== counter;
     });
 
-    this.setState({ close_relatives: [...close_relatives_data] });
+    this.setState({ family_members: [...family_members_data] });
   };
 
   validated = () => {
-    let form = this.state.current_close_relative;
+    let form = this.state.current_family_member;
     let validated = true;
-    let fields = ["occupation", "name", "place_of_birth", "relation","nationality","current_address"];
+    let fields = ["occupation", "name", "present_address", "relation"];
 
     for (let i = 0; i < fields.length; i++) {
       if (form[fields[i]] === "" || form[fields[i]] === null) {
@@ -84,17 +79,17 @@ export default class CloseRelatives extends Component {
   storeCurrentIntoArray = () => {
     let temp = this.state.counter + 1;
     let current = {
-      ...this.state.current_close_relative,
+      ...this.state.current_family_member,
       counter: this.state.counter,
     };
     this.setState({
-      close_relatives: [...this.state.close_relatives, current],
+      family_members: [...this.state.family_members, current],
       counter: temp,
     });
   };
 
   clearExistingForm = () => {
-    let current_data = this.state.current_close_relative;
+    let current_data = this.state.current_family_member;
     let fields = Object.keys(current_data);
 
     for (let i = 0; i < fields.length; i++) {
@@ -103,7 +98,7 @@ export default class CloseRelatives extends Component {
 
     current_data["relation"] = null;
 
-    this.setState({ current_close_relative: { ...current_data } });
+    this.setState({ current_family_member: { ...current_data } });
   };
 
   changeModal = (state) => {
@@ -115,27 +110,47 @@ export default class CloseRelatives extends Component {
       ...this.props,
     };
 
-    let form = this.state.current_close_relative;
+    let form = this.state.current_family_member;
 
     return (
       <div className="container">
         <div className={styles["main_wrapper"]}>
           <Modal
             modalState={this.state.modalOpen}
-            modalMessage="Add a Close Relative"
+            modalMessage="Add a Family Member"
             closeModal={() => this.changeModal("close")}
           >
             <Form>
               <Form.Group widths="equal">
-              <Form.Field
-                  control={Form.Input}
-                  label="Relation"
-                  name="relation"
+                <Form.Field
                   required
-                  onChange={(e) => {
-                    this.handleLocalFormFill("relation", e.target.value);
+                  control={Select}
+                  options={[
+                    "Father",
+                    "Mother",
+                    "Wife",
+                    "Husband",
+                    "Son",
+
+                    "Brother",
+                    "Daughter",
+                    "Sister",
+                    "Step Son",
+                    "Step Daughter",
+                  ].map((relation) => {
+                    return { key: relation, text: relation, value: relation };
+                  })}
+                  label={{
+                    children: "Relation",
+                    htmlFor: "form-select-control-relation",
                   }}
-                  value={form["relation"]}
+                  placeholder={form["relation"] || "Relation"}
+                  search
+                  onChange={(e, { value }) => {
+                    console.log(value);
+                    this.handleLocalFormFill("relation", value);
+                  }}
+                  searchInput={{ id: "form-select-control-relation" }}
                 />
                 <Form.Field
                   control={Form.Input}
@@ -158,57 +173,15 @@ export default class CloseRelatives extends Component {
                   }}
                   value={form["occupation"]}
                 />
-
-<Form.Field
-                  required
-                  control={Select}
-                  options={NationalityData.map((relation) => {
-                    return { key: relation, text: relation, value: relation };
-                  })}
-                  label={{
-                    children: "Nationality",
-                    htmlFor: "form-select-control-nationality",
-                  }}
-                  placeholder={form["nationality"] || "Nationality"}
-                  search
-                  onChange={(e, { value }) => {
-                    console.log(value);
-                    this.handleLocalFormFill("nationality", value);
-                  }}
-                  searchInput={{ id: "form-select-control-nationality" }}
-                />
-
               </Form.Group>
 
-              <Form.Field label="Place of Birth" />
+              <Form.Field label="Present Address" />
               <Form.Group>
                 <TextArea
                   required
                   placeholer="Address"
                   onChange={(e) => {
-                    this.handleLocalFormFill("place_of_birth", e.target.value);
-                  }}
-                />
-              </Form.Group>
-
-              <Form.Field label="Current Address" />
-              <Form.Group>
-                <TextArea
-                  required
-                  placeholer="Current Address"
-                  onChange={(e) => {
-                    this.handleLocalFormFill("current_address", e.target.value);
-                  }}
-                />
-              </Form.Group>
-
-              <Form.Field label="Additional Information" />
-              <Form.Group>
-                <TextArea
-                  required
-                  placeholer="Additional Information"
-                  onChange={(e) => {
-                    this.handleLocalFormFill("additional_info", e.target.value);
+                    this.handleLocalFormFill("present_address", e.target.value);
                   }}
                 />
               </Form.Group>
@@ -232,8 +205,8 @@ export default class CloseRelatives extends Component {
             </Form>
           </Modal>
 
-          <Header as="h2">17. Particulars of Close Relatives</Header>
-          <p>Please furnish information voluntarily of such relatives who you think, the employer should be kept posted for reasons of preempting adverse reporting in enquiry</p>
+          <Header as="h2">15. Particulars of Family Members</Header>
+          <p>Please enter the details of family members</p>
 
           <Button
             positive
@@ -243,12 +216,12 @@ export default class CloseRelatives extends Component {
               });
             }}
           >
-            Add Close Relative
+            Add Family Member
           </Button>
         </div>
         <Table
           removeItemFormTable={this.removeItemFormTable}
-          data={this.state.close_relatives}
+          data={this.state.family_members}
         />
 
         <div className={styles["btn_wrapper"]}>
@@ -261,7 +234,7 @@ export default class CloseRelatives extends Component {
                 decrementStep();
               }}
             >
-              BACK: (16). IN-LAWS INFO
+              BACK: (13). EMPLOYEE INFO
             </Button>
             <Button.Or />
             <Button
@@ -272,16 +245,16 @@ export default class CloseRelatives extends Component {
                 e.preventDefault();
 
                 if (this.validatedMainSubmission()) {
-                  handleArrayFill("particulars_information", [
-                    ...this.state.close_relatives,
-
-                    "close_relatives",
-                  ]);
-                  incrementStep()
+                  handleArrayFill(
+                    "particulars_information",
+                    [...this.state.family_members],
+                    "family_members"
+                  );
+                  incrementStep();
                 } else return false;
               }}
             >
-              18. FRIENDS INFO: NEXT
+              15 IN-LAWS INFO: NEXT
             </Button>
           </Button.Group>
         </div>

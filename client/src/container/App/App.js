@@ -35,9 +35,17 @@ import FamilyMembers from "../../components/Particulars/Family_Members/FamilyMem
 
 import InLawMembers from "../../components/Particulars/InLaws/InLaws";
 
+import CloseRelatives from "../../components/Particulars/CloseRelatives/CloseRelatives"
+
+import Friends from "../../components/Particulars/Friends/Friends"
+
+import Places from "../../components/Particulars/Places/Places"
+
+import ForeignVisits from "../../components/Particulars/ForeignVisits/ForeignVisits"
+
 export default class App extends Component {
   state = {
-    currentStep: 16,
+    currentStep: 20,
     form: {
       general_information: {
         name: "",
@@ -150,6 +158,8 @@ export default class App extends Component {
         in_laws: [],
         close_relatives: [],
         friends: [],
+        places_resided:[],
+        foreign_visits:[]
       },
     },
   };
@@ -390,6 +400,46 @@ export default class App extends Component {
             decrementStep={this.decrementStep}
           />
         );
+
+        case 17:
+          return (
+            <CloseRelatives
+              form={this.state.form.particulars_information.close_relatives}
+              handleArrayFill={this.handleArrayFill}
+              incrementStep={this.incrementStep}
+              decrementStep={this.decrementStep}
+            />
+          );
+
+          case 18:
+            return (
+              <Friends
+                form={this.state.form.particulars_information.friends}
+                handleArrayFill={this.handleArrayFill}
+                incrementStep={this.incrementStep}
+                decrementStep={this.decrementStep}
+              />
+            );
+
+            case 19:
+              return (
+                <Places
+                  form={this.state.form.particulars_information.places_resided}
+                  handleArrayFill={this.handleArrayFill}
+                  incrementStep={this.incrementStep}
+                  decrementStep={this.decrementStep}
+                />
+              );
+
+              case 20:
+                return (
+                  <ForeignVisits
+                    form={this.state.form.particulars_information.foreign_visits}
+                    handleArrayFill={this.handleArrayFill}
+                    incrementStep={this.incrementStep}
+                    decrementStep={this.decrementStep}
+                  />
+                );
       default:
         return <div>Lost</div>;
     }
