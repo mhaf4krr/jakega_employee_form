@@ -12,7 +12,7 @@ import  {countries} from "../../../utils/NationalityData"
 
 
 
-export default class ForeignVisits extends Component {
+export default class SpouseForeignVisits extends Component {
   state = {
     modalOpen: false,
     counter: 0,
@@ -127,6 +127,7 @@ export default class ForeignVisits extends Component {
           >
             <Form>
               <Form.Group widths="equal">
+
               <Form.Input
                   type="date"
                   label="From"
@@ -148,6 +149,8 @@ export default class ForeignVisits extends Component {
                   }
                   value={form["to"]}
                 />
+              
+
 
 <Form.Field
                   required
@@ -215,8 +218,8 @@ export default class ForeignVisits extends Component {
             </Form>
           </Modal>
 
-          <Header as="h2">20. Particulars of Foreign Visits</Header>
-          <p>Please enter the details of your foreign visits</p>
+          <Header as="h2">22. Particulars of Foreign Visits of your Spouse</Header>
+          <p>Please furnish the details of the foreign visits of your spouse</p>
 
           <Button
             positive
@@ -244,7 +247,7 @@ export default class ForeignVisits extends Component {
                 decrementStep();
               }}
             >
-              BACK: (19). PLACES
+              BACK: (21). PLACES
             </Button>
             <Button.Or />
             <Button
@@ -258,13 +261,13 @@ export default class ForeignVisits extends Component {
                   handleArrayFill(
                     "particulars_information",
                     [...this.state.visits],
-                    "foreign_visits"
+                    "spouse_foreign_visits"
                   );
                   incrementStep();
                 } else return false;
               }}
             >
-              21 FOREIGN OFFICIALS: NEXT
+              23 RESIDENTS: NEXT
             </Button>
           </Button.Group>
         </div>

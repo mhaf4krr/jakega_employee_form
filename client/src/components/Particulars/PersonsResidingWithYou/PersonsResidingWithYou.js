@@ -4,72 +4,65 @@ import styles from "./Educational.module.css";
 
 import Modal from "../../../utils/Modal/Modal";
 
-import { Header, Form, Button, TextArea, Select } from "semantic-ui-react";
-
-import Table from "./ForeignVisitsTable/Table";
-
-import  {countries} from "../../../utils/NationalityData"
+import { Header, Form, Button, TextArea,} from "semantic-ui-react";
 
 
 
-export default class ForeignVisits extends Component {
+import Table from "./PersonTable/Table";
+
+export default class PersonsResidingWithYou extends Component {
   state = {
     modalOpen: false,
     counter: 0,
-    visits: [],
-    current_visit: {
-      from:null,
-      to:null,
-      country_visited:null,
-      purpose_of_visit:"",
-      details_of_host:""
+    persons: [],
+    current_person: {
+    
+      name: "",
+      from:"",
+      to:"",
+      relevant_info:""
     },
   };
 
   componentDidMount() {
-    let visits_data = this.props.form;
+    let persons_data = this.props.form;
 
     // If some previous information exists, just initialize state to that
 
-    if (visits_data.length > 0) {
-      this.setState({ visits: [...visits_data] });
+    if (persons_data.length > 0) {
+      this.setState({ persons: [...persons_data] });
     }
 
     return;
   }
 
   handleLocalFormFill = (key, value) => {
-    let form = { ...this.state.current_visit };
+    let form = { ...this.state.current_person };
 
     if (value === null) {
       return;
     }
 
     form[key] = value;
-    this.setState({ current_visit: { ...form } });
+    this.setState({ current_person: { ...form } });
   };
 
-  validatedMainSubmission = () => {
-    let visits = this.state.visits;
-    if (visits.length > 0) {
-      return true;
-    } else return false;
-  };
+  
 
   removeItemFormTable = (counter) => {
-    let visits_data = [...this.state.visits];
+    let persons_data = [...this.state.persons];
 
-    visits_data = visits_data.filter((member) => {
+    persons_data = persons_data.filter((member) => {
       return member.counter !== counter;
     });
 
-    this.setState({ visits: [...visits_data] });
+    this.setState({ persons: [...persons_data] });
   };
 
   validated = () => {
-    let form = this.state.current_visit;
+    let form = this.state.current_person;
     let validated = true;
-    let fields = ["from","to","country_visited","purpose_of_visit","details_of_host"];
+    let fields = ["name", "from","to","relevant_info"];
 
     for (let i = 0; i < fields.length; i++) {
       if (form[fields[i]] === "" || form[fields[i]] === null) {
@@ -84,26 +77,25 @@ export default class ForeignVisits extends Component {
   storeCurrentIntoArray = () => {
     let temp = this.state.counter + 1;
     let current = {
-      ...this.state.current_visit,
+      ...this.state.current_person,
       counter: this.state.counter,
     };
     this.setState({
-      visits: [...this.state.visits, current],
+      persons: [...this.state.persons, current],
       counter: temp,
     });
   };
 
   clearExistingForm = () => {
-    let current_data = this.state.current_visit;
+    let current_data = this.state.current_person;
     let fields = Object.keys(current_data);
 
     for (let i = 0; i < fields.length; i++) {
       current_data[fields[i]] = "";
     }
 
-   
-
-    this.setState({ current_visit: { ...current_data } });
+  
+    this.setState({ current_person: { ...current_data } });
   };
 
   changeModal = (state) => {
@@ -115,19 +107,31 @@ export default class ForeignVisits extends Component {
       ...this.props,
     };
 
-    let form = this.state.current_visit;
+    let form = this.state.current_person;
 
     return (
       <div className="container">
         <div className={styles["main_wrapper"]}>
           <Modal
             modalState={this.state.modalOpen}
-            modalMessage="Add a Foreign Visit"
+            modalMessage="Add Person Residing with you"
             closeModal={() => this.changeModal("close")}
           >
             <Form>
               <Form.Group widths="equal">
-              <Form.Input
+            
+                <Form.Field
+                  control={Form.Input}
+                  label="Name of Person"
+                  name="name"
+                  required
+                  onChange={(e) => {
+                    this.handleLocalFormFill("name", e.target.value);
+                  }}
+                  value={form["name"]}
+                />
+
+<Form.Input
                   type="date"
                   label="From"
                   required
@@ -149,47 +153,15 @@ export default class ForeignVisits extends Component {
                   value={form["to"]}
                 />
 
-<Form.Field
-                  required
-                  control={Select}
-                  options={countries.map((country) => {
-                    return { key: country.name, text: country.name, value: country.name };
-                  })}
-                  label={{
-                    children: "Country Visited",
-                    htmlFor: "form-select-control-country_visited",
-                  }}
-                  placeholder={form["country_visited"] || "Country Visited"}
-                  search
-                  onChange={(e, { value }) => {
-                    console.log(value);
-                    this.handleLocalFormFill("country_visited", value);
-                  }}
-                  searchInput={{ id: "form-select-control-country_visited" }}
-                />
-
-
-                
               </Form.Group>
 
-              <Form.Field label="Purpose of Visit" />
+              <Form.Field label="Relevant Contextual Information" />
               <Form.Group>
                 <TextArea
                   required
                   placeholer="Address"
                   onChange={(e) => {
-                    this.handleLocalFormFill("purpose_of_visit", e.target.value);
-                  }}
-                />
-              </Form.Group>
-
-              <Form.Field label="Details of Host(with whom stayed)" />
-              <Form.Group>
-                <TextArea
-                  required
-                  placeholer="Address"
-                  onChange={(e) => {
-                    this.handleLocalFormFill("details_of_host", e.target.value);
+                    this.handleLocalFormFill("relevant_info", e.target.value);
                   }}
                 />
               </Form.Group>
@@ -209,14 +181,14 @@ export default class ForeignVisits extends Component {
                     }
                   }}
                 >
-                  Add Foreign Visit
+                  Add Person to List
                 </Button>
               </Form.Group>
             </Form>
           </Modal>
 
-          <Header as="h2">20. Particulars of Foreign Visits</Header>
-          <p>Please enter the details of your foreign visits</p>
+          <Header as="h2">23. Details of persons (other than family members) residing with you</Header>
+         
 
           <Button
             positive
@@ -226,12 +198,12 @@ export default class ForeignVisits extends Component {
               });
             }}
           >
-            Add Foreign Visit
+            Add Person
           </Button>
         </div>
         <Table
           removeItemFormTable={this.removeItemFormTable}
-          data={this.state.visits}
+          data={this.state.persons}
         />
 
         <div className={styles["btn_wrapper"]}>
@@ -244,27 +216,27 @@ export default class ForeignVisits extends Component {
                 decrementStep();
               }}
             >
-              BACK: (19). PLACES
+              BACK: (22). FOREIGN VISITS
             </Button>
             <Button.Or />
             <Button
               size="medium"
               positive
-              
+           
               onClick={(e) => {
                 e.preventDefault();
 
                 if (true) {
-                  handleArrayFill(
-                    "particulars_information",
-                    [...this.state.visits],
-                    "foreign_visits"
+                  handleArrayFill("particulars_information", [
+                    ...this.state.persons],
+
+                    "persons_residing_with",
                   );
-                  incrementStep();
+                   incrementStep()
                 } else return false;
               }}
             >
-              21 FOREIGN OFFICIALS: NEXT
+              24. NRI RELATIVES: NEXT
             </Button>
           </Button.Group>
         </div>

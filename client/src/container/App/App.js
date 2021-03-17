@@ -43,9 +43,19 @@ import Places from "../../components/Particulars/Places/Places"
 
 import ForeignVisits from "../../components/Particulars/ForeignVisits/ForeignVisits"
 
+import ForeignOfficials from "../../components/Particulars/ForeignOfficials/ForeignOfficials"
+
+import SpouseForeignVisits from "../../components/Particulars/SpouseForeignVisits/SpouseForeignVisits"
+
+import PersonsResidingWithYou from "../../components/Particulars/PersonsResidingWithYou/PersonsResidingWithYou"
+
+import NRIFamilyMembers from "../../components/Particulars/NRI_FAMILY/FamilyMembers"
+
+import ChildrenAbroad from "../../components/Particulars/ChildrenAbroad/ChildrenAbroad"
+
 export default class App extends Component {
   state = {
-    currentStep: 20,
+    currentStep: 25,
     form: {
       general_information: {
         name: "",
@@ -159,7 +169,12 @@ export default class App extends Component {
         close_relatives: [],
         friends: [],
         places_resided:[],
-        foreign_visits:[]
+        foreign_visits:[],
+        contact_with_foreign_officials:[],
+        spouse_foreign_visits:[],
+        persons_residing_with:[],
+        nri_family:[],
+        children_abroad:[]
       },
     },
   };
@@ -440,6 +455,59 @@ export default class App extends Component {
                     decrementStep={this.decrementStep}
                   />
                 );
+
+              
+                case 21:
+                  return (
+                    <ForeignOfficials
+                      form={this.state.form.particulars_information.contact_with_foreign_officials}
+                      handleArrayFill={this.handleArrayFill}
+                      incrementStep={this.incrementStep}
+                      decrementStep={this.decrementStep}
+                    />
+                  );
+
+                  case 22:
+                    return (
+                      <SpouseForeignVisits
+                        form={this.state.form.particulars_information.spouse_foreign_visits}
+                        handleArrayFill={this.handleArrayFill}
+                        incrementStep={this.incrementStep}
+                        decrementStep={this.decrementStep}
+                      />
+                    );
+
+                    case 23:
+                      return (
+                        <PersonsResidingWithYou
+                          form={this.state.form.particulars_information.persons_residing_with}
+                          handleArrayFill={this.handleArrayFill}
+                          incrementStep={this.incrementStep}
+                          decrementStep={this.decrementStep}
+                        />
+                      );
+
+                      case 24:
+                        return (
+                          <NRIFamilyMembers
+                            form={this.state.form.particulars_information.nri_family}
+                            handleArrayFill={this.handleArrayFill}
+                            incrementStep={this.incrementStep}
+                            decrementStep={this.decrementStep}
+                          />
+                        );
+
+
+                    case 25:
+
+                    return(
+                      <ChildrenAbroad
+                      form={this.state.form.particulars_information.children_abroad}
+                      handleArrayFill={this.handleArrayFill}
+                      incrementStep={this.incrementStep}
+                      decrementStep={this.decrementStep}
+                    />
+                    )
       default:
         return <div>Lost</div>;
     }

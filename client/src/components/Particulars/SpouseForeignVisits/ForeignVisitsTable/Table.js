@@ -7,10 +7,10 @@ export default function EducationTable({ data, removeItemFormTable }) {
       <Table.Row textAlign="center" key={item["id"]}>
         <Table.Cell>{index + 1}</Table.Cell>
 
-        <Table.Cell>{item.country}</Table.Cell>
-        <Table.Cell>{item.name}</Table.Cell>
-        <Table.Cell>{item.designation}</Table.Cell>
-        <Table.Cell>{item.meeting_circumstances}</Table.Cell>
+        <Table.Cell>{item.from}</Table.Cell>
+        <Table.Cell>{item.to}</Table.Cell>
+        <Table.Cell>{item.country_visited}</Table.Cell>
+        <Table.Cell>{item.purpose_of_visit}</Table.Cell>
         <Table.Cell>
           <Button
             negative
@@ -30,10 +30,10 @@ export default function EducationTable({ data, removeItemFormTable }) {
         <Table.Header>
           <Table.Row textAlign="center">
             <Table.HeaderCell width={3}>S.No</Table.HeaderCell>
-            <Table.HeaderCell>Country</Table.HeaderCell>
-            <Table.HeaderCell>Name</Table.HeaderCell>
-            <Table.HeaderCell>Designation</Table.HeaderCell>
-            <Table.HeaderCell>Meeting Circumstances</Table.HeaderCell>
+            <Table.HeaderCell>From</Table.HeaderCell>
+            <Table.HeaderCell>To</Table.HeaderCell>
+            <Table.HeaderCell>Country Visited</Table.HeaderCell>
+            <Table.HeaderCell>Purpose</Table.HeaderCell>
             <Table.HeaderCell>Remove</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
