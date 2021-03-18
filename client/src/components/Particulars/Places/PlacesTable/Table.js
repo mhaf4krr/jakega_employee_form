@@ -9,7 +9,7 @@ export default function EducationTable({ data, removeItemFormTable }) {
 
         <Table.Cell>{item.country}</Table.Cell>
         <Table.Cell>{item.place}</Table.Cell>
-        <Table.Cell>{item.occupation}</Table.Cell>
+       
         <Table.Cell>{item["period_of_stay"]}</Table.Cell>
         <Table.Cell>
           <Button
@@ -32,7 +32,7 @@ export default function EducationTable({ data, removeItemFormTable }) {
             <Table.HeaderCell width={3}>S.No</Table.HeaderCell>
             <Table.HeaderCell>Country</Table.HeaderCell>
             <Table.HeaderCell>Place</Table.HeaderCell>
-            <Table.HeaderCell>Occupation</Table.HeaderCell>
+         
             <Table.HeaderCell>Period of Stay</Table.HeaderCell>
             <Table.HeaderCell>Remove</Table.HeaderCell>
           </Table.Row>

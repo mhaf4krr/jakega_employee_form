@@ -10,7 +10,7 @@ import Table from "./ChildrenTable/Table";
 
 import {countries} from "../../../utils/NationalityData"
 
-export default class NRIFamilyMembers extends Component {
+export default class ChildrenAbroad extends Component {
   state = {
     modalOpen: false,
     counter: 0,
@@ -75,7 +75,7 @@ export default class NRIFamilyMembers extends Component {
     for (let i = 0; i < fields.length; i++) {
       if (form[fields[i]] === "" || form[fields[i]] === null) {
         validated = false;
-        console.error("probelm with",fields[i])
+     
         break;
       }
     }
@@ -289,7 +289,7 @@ export default class NRIFamilyMembers extends Component {
                   handleArrayFill(
                     "particulars_information",
                     [...this.state.nri_children],
-                    "nri_family"
+                    "children_abroad"
                   );
                   incrementStep();
                 } else return false;

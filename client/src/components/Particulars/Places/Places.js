@@ -244,9 +244,11 @@ export default class Places extends Component {
                 if (this.validatedMainSubmission()) {
                   handleArrayFill(
                     "particulars_information",
-                    [...this.state.pl],
-                    "places"
+                    [...this.state.places],
+                    "places_resided"
                   );
+
+                  incrementStep()
                 } else return false;
               }}
             >

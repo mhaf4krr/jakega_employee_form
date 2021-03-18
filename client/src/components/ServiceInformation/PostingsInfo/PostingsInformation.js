@@ -8,15 +8,15 @@ import { Header, Form, Button } from "semantic-ui-react";
 
 import Table from "./PostingsTable/Table";
 
-export default class EducationInfo extends Component {
+export default class PostingsInfo extends Component {
   state = {
     modalOpen: false,
     counter: 0,
     postings: [],
     posting: {
       office_place: "",
-      from: "",
-      to: "",
+      from: null,
+      to: null,
     
     },
   };
@@ -33,6 +33,21 @@ export default class EducationInfo extends Component {
 
      return
      
+  }
+
+  validateBtn = () =>{
+    let validated = true
+    let fields = Object.keys(this.state.posting)
+
+    let form = this.state.posting
+
+    for(let i=0;i<fields.length;i++){
+      if(form[fields[i]] === null || form[fields[i]] === "" ){
+        validated = false
+      }
+    }
+
+    return validated
   }
 
   validatedMainSubmission = () => {
@@ -144,25 +159,22 @@ export default class EducationInfo extends Component {
               </Form.Group>
 
               <Form.Group widths="equal">
-                <Form.Field
-                  control={Form.Input}
+              <Form.Input
+                  type="date"
                   label="Posting From"
-                  name="from"
                   required
-                  onChange={(e) => {
-                    this.handleFormFill("from", e.target.value);
-                  }}
+                  onChange={(e) =>
+                    this.handleFormFill("from", e.target.value)
+                  }
                   value={form["from"]}
                 />
-
-<Form.Field
-                  control={Form.Input}
+<Form.Input
+                  type="date"
                   label="Posting To"
-                  name="to"
                   required
-                  onChange={(e) => {
-                    this.handleFormFill("to", e.target.value);
-                  }}
+                  onChange={(e) =>
+                    this.handleFormFill("to", e.target.value)
+                  }
                   value={form["to"]}
                 />
               </Form.Group>
@@ -171,6 +183,7 @@ export default class EducationInfo extends Component {
               <Form.Group>
                 <Button
                   positive
+                  disabled={!this.validateBtn()}
                   onClick={(e) => {
                     if (this.validated()) {
                       this.storeCurrentInArray();

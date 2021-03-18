@@ -179,6 +179,7 @@ export default class VehiclesInfo extends Component {
                   handleArrayFill("mobile_numbers", [
                     ...this.state.mobile_numbers,
                   ]);
+                  incrementStep()
                 } else return false;
               }}
             >

@@ -175,9 +175,11 @@ export default class AccountNumberInformation extends Component {
                 e.preventDefault();
 
                 if (this.validatedMainSubmission()) {
-                  handleArrayFill("account_numbers", [
+                  handleArrayFill("accounts", [
                     ...this.state.account_numbers,
                   ]);
+
+                  incrementStep()
                 } else return false;
               }}
             >

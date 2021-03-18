@@ -119,7 +119,7 @@ export default class ForeignOfficials extends Component {
         <div className={styles["main_wrapper"]}>
           <Modal
             modalState={this.state.modalOpen}
-            modalMessage="Add a Family Member"
+            modalMessage="Add a Meeting"
             closeModal={() => this.changeModal("close")}
           >
             <Form>
@@ -238,7 +238,7 @@ export default class ForeignOfficials extends Component {
                   handleArrayFill(
                     "particulars_information",
                     [...this.state.foreign_visits],
-                    "foreign_visits"
+                    "contact_with_foreign_officials"
                   );
                   incrementStep();
                 } else return false;

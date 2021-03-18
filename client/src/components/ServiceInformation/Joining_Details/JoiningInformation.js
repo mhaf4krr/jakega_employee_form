@@ -41,6 +41,7 @@ export default class JoiningInformation extends Component {
 
   render() {
     let form = this.props.form;
+    console.log(form)
     return (
       <PageTemplate>
         <Header as="h2">13. Joining Information </Header>
@@ -285,9 +286,7 @@ export default class JoiningInformation extends Component {
                   e.preventDefault();
 
                   if (this.validatedMainSubmission()) {
-                    this.props.handleFormFill("service_details", "joining", {
-                      ...this.state,
-                    });
+                   
                     this.props.incrementStep();
                   } else return false;
                 }}

@@ -8,7 +8,7 @@ import { Header, Form, Button, TextArea, Select } from "semantic-ui-react";
 
 import Table from "./FamilyTable/Table";
 
-import {countries} from "../../../utils/NationalityData"
+import {countries,data as nationality} from "../../../utils/NationalityData"
 
 export default class NRIFamilyMembers extends Component {
   state = {
@@ -221,8 +221,8 @@ export default class NRIFamilyMembers extends Component {
 <Form.Field
                   required
                   control={Select}
-                  options={countries.map((country) => {
-                    return { key: country.name, text: country.name, value: country.name };
+                  options={nationality.map((nation) => {
+                    return { key: nation, text: nation, value: nation };
                   })}
                   label={{
                     children: "Nationality",

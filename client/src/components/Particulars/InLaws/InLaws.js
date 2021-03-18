@@ -240,9 +240,11 @@ export default class InLaws extends Component {
                 if (this.validatedMainSubmission()) {
                   handleArrayFill(
                     "particulars_information",
-                    [...this.state.mobile_numbers],
-                    "inlaws_members"
+                    [...this.state.inlaws_members],
+                    "in_laws"
                   );
+
+                  incrementStep()
                 } else return false;
               }}
             >

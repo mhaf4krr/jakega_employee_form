@@ -273,10 +273,10 @@ export default class CloseRelatives extends Component {
 
                 if (this.validatedMainSubmission()) {
                   handleArrayFill("particulars_information", [
-                    ...this.state.close_relatives,
+                    ...this.state.close_relatives
 
-                    "close_relatives",
-                  ]);
+                   
+                  ], "close_relatives",);
                   incrementStep()
                 } else return false;
               }}

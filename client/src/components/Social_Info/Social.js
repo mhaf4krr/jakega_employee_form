@@ -106,6 +106,7 @@ export default function General({
                 disabled={!validateInputs(form)}
                 onClick={(e) => {
                   e.preventDefault();
+                  incrementStep()
                 }}
               >
                 (6). LEGAL INFORMATION : NEXT

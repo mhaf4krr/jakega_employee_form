@@ -267,7 +267,7 @@ export default class Friends extends Component {
 
                     "friends",
                   );
-                  // incrementStep()
+                   incrementStep()
                 } else return false;
               }}
             >

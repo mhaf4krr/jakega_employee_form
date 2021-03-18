@@ -53,9 +53,15 @@ import NRIFamilyMembers from "../../components/Particulars/NRI_FAMILY/FamilyMemb
 
 import ChildrenAbroad from "../../components/Particulars/ChildrenAbroad/ChildrenAbroad"
 
+import PreviousEmployments from "../../components/Particulars/PreviousEmployments/PreviousEmployments"
+
+import Questionare from "../../components/Questionaire/Questionaire"
+
+import Declaration from "../../components/Declaration/Declaration"
+
 export default class App extends Component {
   state = {
-    currentStep: 25,
+    currentStep: 1,
     form: {
       general_information: {
         name: "",
@@ -138,7 +144,7 @@ export default class App extends Component {
       accounts: [],
 
       service_details: {
-        positings: [],
+        postings: [],
         promotions: [],
         joining: {
           recruiting_agency: null,
@@ -174,8 +180,11 @@ export default class App extends Component {
         spouse_foreign_visits:[],
         persons_residing_with:[],
         nri_family:[],
-        children_abroad:[]
+        children_abroad:[],
+        previous_employments:[]
       },
+
+      questionare:[]
     },
   };
 
@@ -359,7 +368,7 @@ export default class App extends Component {
       case 11:
         return (
           <PostingInformation
-            form={this.state.form.service_details.positings}
+            form={this.state.form.service_details.postings}
             handleArrayFill={this.handleArrayFill}
             incrementStep={this.incrementStep}
             decrementStep={this.decrementStep}
@@ -508,6 +517,38 @@ export default class App extends Component {
                       decrementStep={this.decrementStep}
                     />
                     )
+
+                    case 26:
+
+                    return(
+                      <PreviousEmployments
+                      form={this.state.form.particulars_information.previous_employments}
+                      handleArrayFill={this.handleArrayFill}
+                      incrementStep={this.incrementStep}
+                      decrementStep={this.decrementStep}
+                    />
+                    )
+
+
+                    case 27:
+
+                      return(
+                        <Questionare
+                        form={this.state.form.questionare}
+                        handleArrayFill={this.handleArrayFill}
+                        incrementStep={this.incrementStep}
+                        decrementStep={this.decrementStep}
+                      />
+                      )
+
+                      case 28:
+
+                        return(
+                          <Declaration
+                          form={this.state.form}
+                          
+                        />
+                        )
       default:
         return <div>Lost</div>;
     }

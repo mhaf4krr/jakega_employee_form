@@ -7,7 +7,6 @@ export default function EducationTable({ data, removeItemFormTable }) {
       <Table.Row textAlign="center" key={item["id"]}>
         <Table.Cell>{index + 1}</Table.Cell>
 
-        <Table.Cell>{item.relation}</Table.Cell>
         <Table.Cell>{item.name}</Table.Cell>
         <Table.Cell>{item.occupation}</Table.Cell>
         <Table.Cell>{item.nationality}</Table.Cell>
