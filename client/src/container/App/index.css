@@ -29,3 +29,9 @@ h4.ui.header {
 div.equal.width.fields {
   padding: 1rem 0;
 }
+
+
+.ui.form .field.disabled>label{
+  opacity: 1 !important;
+  color:black !important
+}

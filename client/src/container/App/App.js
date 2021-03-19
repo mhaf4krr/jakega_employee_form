@@ -2,6 +2,8 @@ import React, { Component } from "react";
 
 import "semantic-ui-css/semantic.min.css";
 
+
+
 import "./index.css";
 
 import GeneralInformation from "../../components/General_Info/General";
@@ -59,14 +61,16 @@ import Questionare from "../../components/Questionaire/Questionaire"
 
 import Declaration from "../../components/Declaration/Declaration"
 
+import Preview from "../../components/Preview/Preview"
+
 export default class App extends Component {
   state = {
-    currentStep: 1,
+    currentStep: 29,
     form: {
       general_information: {
         name: "",
-        present_department: null,
-        parent_department: null,
+        present_department: "",
+        parent_department: "",
         designation: "",
         employee_id: "",
         photo: null,
@@ -263,6 +267,9 @@ export default class App extends Component {
   };
 
   render() {
+
+    
+
     switch (this.state.currentStep) {
       case 1:
         return (
@@ -545,10 +552,18 @@ export default class App extends Component {
 
                         return(
                           <Declaration
-                          form={this.state.form}
-                          
+                          incrementStep={this.incrementStep}
                         />
                         )
+
+                        case 29:
+
+                          return(
+                            <Preview
+                            form={this.state.form}
+                            
+                          />
+                          )
       default:
         return <div>Lost</div>;
     }

@@ -3,7 +3,7 @@ import { Button, Form, Header } from 'semantic-ui-react'
 
 import PageTemplate from "../Page_Template/PageTemplate"
 
-export default function Declaration() {
+export default function Declaration({incrementStep}) {
     return (
         <div>
             <PageTemplate>
@@ -25,7 +25,9 @@ export default function Declaration() {
                 </p>
 
                 <div>
-                    <Button color="yellow">
+                    <Button color="yellow"
+                        onClick={e=>incrementStep()}
+                    >
                         Preview Details
                     </Button>
                 </div>
